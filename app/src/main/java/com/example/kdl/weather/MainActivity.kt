@@ -4,6 +4,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.ProgressBar
+import org.jetbrains.anko.async
+import org.jetbrains.anko.find
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,9 +26,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val forecastList = findViewById<RecyclerView>(R.id.forecast_list)
+        val forecastList: RecyclerView = find(R.id.forecast_list)
+        val progressBar: ProgressBar = find(R.id.progressbar)
         forecastList.layoutManager = LinearLayoutManager(this)
         forecastList.adapter = ForecastListAdapter(items)
 
+
+        val url = "http://wanandroid.com/tools/mockapi/2192/get_news"
+        async {
+            Request(url).run()
+            uiThread {
+                longToast("Request performed")
+                progressBar.visibility = View.GONE
+            }
+        }
     }
 }
