@@ -1,17 +1,18 @@
-package com.example.kdl.weather
+package com.example.kdl.weather.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import com.example.kdl.weather.R
+import com.example.kdl.weather.domain.commands.RequestForecastCommand
+import com.example.kdl.weather.ui.adapter.ForecastListAdapter
 import org.jetbrains.anko.async
 import org.jetbrains.anko.find
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.uiThread
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,22 +32,14 @@ class MainActivity : AppCompatActivity() {
         val forecastList: RecyclerView = find(R.id.forecast_list)
         val progressBar: ProgressBar = find(R.id.progressbar)
         forecastList.layoutManager = LinearLayoutManager(this)
-        forecastList.adapter = ForecastListAdapter(items)
-
-        val f1 = Forecast(Date(), 27.5f, "Shiny day")
-        val f2 = f1.copy(tempereture = 30f)
-        val (date, temperature, details) = f1
-        val map = mapOf<String, Int>("1" to 1, "2" to 2, "3" to 3)
-        for ((key, value) in map) {
-            Log.d("map", "key:$key,value:$value")
-        }
 
         val url = "http://wanandroid.com/tools/mockapi/2192/get_news"
         async {
-            Request(url).run()
+            val result = RequestForecastCommand("94043").execute()
             uiThread {
-                longToast("Request performed")
+                longToast("ForecastRequest performed")
                 progressBar.visibility = View.GONE
+                forecastList.adapter = ForecastListAdapter(result)
             }
         }
     }
