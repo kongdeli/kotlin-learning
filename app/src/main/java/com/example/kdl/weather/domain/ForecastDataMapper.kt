@@ -21,8 +21,10 @@ public class ForecastDataMapper {
     private fun convertForecastItemToDomain(forecast: Forecast): ModelForecast {
         return ModelForecast(convertDate(forecast.dt),
                 forecast.weather[0].description, forecast.temp.max.toInt(),
-                forecast.temp.min.toInt())
+                forecast.temp.min.toInt(), generateIconUrl(forecast.weather[0].icon))
     }
+
+    private fun generateIconUrl(iconCode: String): String = "Http://openweathermap.org/img/w/$iconCode.png"
 
     private fun convertDate(date: Long): String {
         val df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())

@@ -2,8 +2,8 @@ package com.example.kdl.weather.domain.model
 
 data class ForeCastList(val city: String, val country: String,
                         val dailyForecast: List<Forecast>) {
-//    val size: Int get() = dailyForecast.size
-//    operator fun get(position: Int) = dailyForecast[position]
+    operator fun get(position: Int): Forecast = dailyForecast[position]
+    fun size(): Int = dailyForecast.size
 }
 
-data class Forecast(val date: String, val description: String, val high: Int, val low: Int)
+data class Forecast(val date: String, val description: String, val high: Int, val low: Int, val iconUrl: String)
