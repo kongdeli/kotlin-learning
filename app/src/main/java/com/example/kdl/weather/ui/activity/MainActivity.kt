@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.ProgressBar
 import com.example.kdl.weather.R
 import com.example.kdl.weather.domain.commands.RequestForecastCommand
+import com.example.kdl.weather.domain.model.Forecast
+import com.example.kdl.weather.toast
 import com.example.kdl.weather.ui.adapter.ForecastListAdapter
 import org.jetbrains.anko.async
 import org.jetbrains.anko.find
@@ -33,13 +35,17 @@ class MainActivity : AppCompatActivity() {
         val progressBar: ProgressBar = find(R.id.progressbar)
         forecastList.layoutManager = LinearLayoutManager(this)
 
-        val url = "http://wanandroid.com/tools/mockapi/2192/get_news"
         async {
             val result = RequestForecastCommand("94043").execute()
             uiThread {
                 longToast("ForecastRequest performed")
                 progressBar.visibility = View.GONE
-                forecastList.adapter = ForecastListAdapter(result)
+                forecastList.adapter = ForecastListAdapter(result,
+                        object : ForecastListAdapter.OnItemClickListener {
+                            override fun invoke(forcast: Forecast) {
+                                toast(forcast.date)
+                            }
+                        })
             }
         }
     }
