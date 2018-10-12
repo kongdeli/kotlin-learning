@@ -8,7 +8,7 @@ interface Command<out T> {
     fun execute(): T
 }
 
-class RequestForecastCommand(val zipCode: String) : Command<ForeCastList> {
+class RequestForecastCommand(private val zipCode: String) : Command<ForeCastList> {
     override fun execute(): ForeCastList {
         val forecastRequest = ForecastRequest(zipCode)
         return ForecastDataMapper().convertFromDataModel(

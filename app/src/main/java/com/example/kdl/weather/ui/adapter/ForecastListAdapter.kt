@@ -4,13 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.example.kdl.weather.R
 import com.example.kdl.weather.domain.model.ForeCastList
 import com.example.kdl.weather.domain.model.Forecast
 import com.squareup.picasso.Picasso
-import org.jetbrains.anko.find
+import kotlinx.android.synthetic.main.item_forcast.view.*
 
 class ForecastListAdapter(val weekForecast: ForeCastList, val itemClick: (Forecast) -> Unit) : RecyclerView.Adapter<ForecastListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,20 +28,21 @@ class ForecastListAdapter(val weekForecast: ForeCastList, val itemClick: (Foreca
 //    }
 
     class ViewHolder(view: View, val itemClick: (Forecast) -> Unit) : RecyclerView.ViewHolder(view) {
-        private val iconView: ImageView = view.find(R.id.icon)
-        private val dateView: TextView = view.find(R.id.date)
-        private val descriptionView: TextView = view.find(R.id.description)
-        private val maxTemperatureView: TextView = view.find(R.id.maxTemperature)
-        private val minTemperatureView: TextView = view.find(R.id.minTemperature)
+
+//        private val iconView: ImageView = view.find(R.id.icon)
+//        private val dateView: TextView = view.find(R.id.date)
+//        private val descriptionView: TextView = view.find(R.id.description)
+//        private val maxTemperatureView: TextView = view.find(R.id.maxTemperature)
+//        private val minTemperatureView: TextView = view.find(R.id.minTemperature)
 
         fun bindForecast(forecast: Forecast) {
             with(forecast) {
                 Picasso.get().setIndicatorsEnabled(true)
-                Picasso.get().load(iconUrl).placeholder(R.mipmap.ic_launcher_round).into(iconView)
-                dateView.text = date
-                descriptionView.text = description
-                maxTemperatureView.text = "$high"
-                minTemperatureView.text = "$low"
+                Picasso.get().load(iconUrl).placeholder(R.mipmap.ic_launcher).into(itemView.icon)
+                itemView.date.text = date
+                itemView.description.text = description
+                itemView.maxTemperature.text = "$high"
+                itemView.minTemperature.text = "$low"
                 itemView.setOnClickListener {
                     itemClick(forecast)
                 }
