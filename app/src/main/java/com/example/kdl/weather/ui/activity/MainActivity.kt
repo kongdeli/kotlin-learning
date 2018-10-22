@@ -1,12 +1,12 @@
 package com.example.kdl.weather.ui.activity
 
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.example.kdl.weather.R
+import com.example.kdl.weather.Test
 import com.example.kdl.weather.domain.commands.RequestForecastCommand
 import com.example.kdl.weather.toast
 import com.example.kdl.weather.ui.adapter.ForecastListAdapter
@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         forecastList.layoutManager = LinearLayoutManager(this)
+        Test().run()
 
         async {
             val result = RequestForecastCommand("94043").execute()
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         supportsLollipop {
-            window.statusBarColor = Color.BLUE
+            window.statusBarColor = resources.getColor(R.color.colorPrimary)
         }
     }
 
